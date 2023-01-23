@@ -27,6 +27,7 @@ add_library(${PROJECT_NAME} SHARED
   src/br2_tf2_detector/ObstacleDetectorNode.cpp
   src/br2_tf2_detector/ObstacleMonitorNode.cpp
   src/br2_tf2_detector/ObstacleDetectorImprovedNode.cpp
+  src/br2_tf2_detector/RobotMoveNode.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 
@@ -38,10 +39,15 @@ add_executable(detector_improved src/detector_improved_main.cpp)
 ament_target_dependencies(detector_improved ${dependencies})
 target_link_libraries(detector_improved ${PROJECT_NAME})
 
+add_executable(robot_moves src/robot_main.cpp)
+ament_target_dependencies(robot_moves ${dependencies})
+target_link_libraries(robot_moves ${PROJECT_NAME})
+
 install(TARGETS
   ${PROJECT_NAME}
   detector
   detector_improved
+  robot_moves
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}

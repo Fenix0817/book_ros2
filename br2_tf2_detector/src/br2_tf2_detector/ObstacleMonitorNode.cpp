@@ -80,10 +80,29 @@ ObstacleMonitorNode::control_cycle()
   end.z = z;
   obstacle_arrow.points = {start, end};
 
-  obstacle_arrow.color.r = 1.0;
-  obstacle_arrow.color.g = 0.0;
-  obstacle_arrow.color.b = 0.0;
-  obstacle_arrow.color.a = 1.0;
+  // Distance
+  dista = sqrt(pow(x,2)+pow(y,2)+pow(z,2));
+
+  if (dista >= 2.0)
+  {
+    obstacle_arrow.color.r = 0.0;
+    obstacle_arrow.color.g = 1.0;
+    obstacle_arrow.color.b = 1.0;
+    obstacle_arrow.color.a = 1.0;
+  }
+  else
+  {
+    obstacle_arrow.color.r = 1.0;
+    obstacle_arrow.color.g = 0.0;
+    obstacle_arrow.color.b = 0.0;
+    obstacle_arrow.color.a = 1.0;
+  }
+
+  // Color depends of the distance between the robot and the obtacle.
+  // obstacle_arrow.color.r = 1.0;
+  // obstacle_arrow.color.g = 0.0;
+  // obstacle_arrow.color.b = 0.0;
+  // obstacle_arrow.color.a = 1.0;
 
   obstacle_arrow.scale.x = 0.02;
   obstacle_arrow.scale.y = 0.1;
