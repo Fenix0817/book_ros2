@@ -114,6 +114,7 @@ ObstacleMonitorNode::control_cycle()
   marker_pub_->publish(obstacle_arrow);
 
   // Chapter 4 - Exercise # 3
+  ObstacleMonitorNode::trans_info("odom", "detected_obstacle");
   ObstacleMonitorNode::trans_info("base_footprint","detected_obstacle");
   ObstacleMonitorNode::trans_info("head_2_link","detected_obstacle");
   cout << "\n" << endl;
