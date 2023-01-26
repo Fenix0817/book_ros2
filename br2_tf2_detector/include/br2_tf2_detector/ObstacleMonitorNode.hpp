@@ -29,6 +29,8 @@
 namespace br2_tf2_detector
 {
 
+using namespace std;
+
 class ObstacleMonitorNode : public rclcpp::Node
 {
 public:
@@ -36,6 +38,7 @@ public:
 
 private:
   void control_cycle();
+  void trans_info(string ori, string dest);
   rclcpp::TimerBase::SharedPtr timer_;
 
   tf2::BufferCore tf_buffer_;

@@ -29,6 +29,7 @@ namespace br2_tf2_detector
 {
 
 using namespace std::chrono_literals;
+using namespace std;
 
 ObstacleMonitorNode::ObstacleMonitorNode()
 : Node("obstacle_monitor"),
@@ -80,6 +81,7 @@ ObstacleMonitorNode::control_cycle()
   end.z = z;
   obstacle_arrow.points = {start, end};
 
+  // Chapter 4 - Exercise # 2
   // Distance
   dista = sqrt(pow(x,2)+pow(y,2)+pow(z,2));
 
@@ -99,6 +101,7 @@ ObstacleMonitorNode::control_cycle()
   }
 
   // Color depends of the distance between the robot and the obtacle.
+  // Original block code
   // obstacle_arrow.color.r = 1.0;
   // obstacle_arrow.color.g = 0.0;
   // obstacle_arrow.color.b = 0.0;
@@ -108,8 +111,35 @@ ObstacleMonitorNode::control_cycle()
   obstacle_arrow.scale.y = 0.1;
   obstacle_arrow.scale.z = 0.1;
 
-
   marker_pub_->publish(obstacle_arrow);
+
+  // Chapter 4 - Exercise # 3
+  ObstacleMonitorNode::trans_info("base_footprint","detected_obstacle");
+  ObstacleMonitorNode::trans_info("head_2_link","detected_obstacle");
+  cout << "\n" << endl;
+}
+
+void 
+ObstacleMonitorNode::trans_info(string ori, string dest)
+{
+  geometry_msgs::msg::TransformStamped obstacle;
+
+  try {
+    obstacle = tf_buffer_.lookupTransform(
+      ori, dest, tf2::TimePointZero);
+  } catch (tf2::TransformException & ex) {
+    RCLCPP_WARN(get_logger(), "Obstacle transform not found: %s", ex.what());
+    return;
+  }
+
+  double xx = obstacle.transform.translation.x;
+  double yy = obstacle.transform.translation.y;
+  double zz = obstacle.transform.translation.z;
+  double ttheta = atan2(yy, xx);
+
+  RCLCPP_INFO(
+    get_logger(), "%s at (%lf m, %lf m, , %lf m) = %lf rads",
+    ori.c_str(), xx, yy, zz, ttheta);
 }
 
 }  // namespace br2_tf2_detector
