@@ -3,9 +3,9 @@
 <package format="3">
   <name>br2_odVff_avoidance</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>Exercise 1 chapter 6</description>
   <maintainer email="andresegh0817@gmail.com">andres</maintainer>
-  <license>TODO: License declaration</license>
+  <license>Apache License, Version 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
