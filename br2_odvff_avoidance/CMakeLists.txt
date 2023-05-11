@@ -1,11 +1,9 @@
-cmake_minimum_required(VERSION 3.8)
-project(br2_odVff_avoidance)
+cmake_minimum_required(VERSION 3.5)
+project(br2_odvff_avoidance)
 
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
-endif()
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_BUILD_TYPE Debug)
 
-# find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
@@ -19,7 +17,7 @@ find_package(image_transport REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(OpenCV REQUIRED)
 
-set(add_dependencies
+set(dependencies
   rclcpp
   rclcpp_lifecycle
   br2_tracking_msgs
@@ -36,21 +34,21 @@ set(add_dependencies
 include_directories(include)
 
 add_library(${PROJECT_NAME} SHARED
-  src/br2_odVff_avoidance/AvoidanceNode.cpp
-  src/br2_odVff_avoidance/ObjectDetector.cpp
-  src/br2_odVff_avoidance/HeadController.cpp
-  src/br2_odVff_avoidance/PIDController.cpp
+  src/br2_odvff_avoidance/AvoidanceNode.cpp
+  src/br2_odvff_avoidance/ObjectDetector.cpp
+  src/br2_odvff_avoidance/HeadController.cpp
+  src/br2_odvff_avoidance/PIDController.cpp
 )
 
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 
-add_executable(avoidance_odVff src/avoidance_odVff_main.cpp)
-ament_target_dependencies(avoidance_odVff ${dependencies})
-target_link_libraries(avoidance_odVff ${PROJECT_NAME})
+add_executable(avoidance_odvff src/avoidance_odvff_main.cpp)
+ament_target_dependencies(avoidance_odvff ${dependencies})
+target_link_libraries(avoidance_odvff ${PROJECT_NAME})
 
 install(TARGETS
   ${PROJECT_NAME}
-  avoidance_odVff
+  avoidance_odvff
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}

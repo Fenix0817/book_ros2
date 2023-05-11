@@ -23,7 +23,7 @@
 #include "image_transport/image_transport.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-namespace br2_odVff_avoidance
+namespace br2_odvff_avoidance
 {
 
 class ObjectDetector : public rclcpp::Node
@@ -42,6 +42,6 @@ private:
   bool debug_ {true};
 };
 
-} // namespace br2_odVff_avoidance
+} // namespace br2_odvff_avoidance
 
 #endif // BR2_ODVFF_AVOIDANCE__OBJECTDETECTOR_HPP_

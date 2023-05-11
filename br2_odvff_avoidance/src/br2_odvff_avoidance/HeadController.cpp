@@ -15,8 +15,8 @@
 #include <algorithm>
 #include <utility>
 
-#include "br2_odVff_avoidance/HeadController.hpp"
-#include "br2_odVff_avoidance/PIDController.hpp"
+#include "br2_odvff_avoidance/HeadController.hpp"
+#include "br2_odvff_avoidance/PIDController.hpp"
 
 #include "br2_tracking_msgs/msg/pan_tilt_command.hpp"
 #include "control_msgs/msg/joint_trajectory_controller_state.hpp"
@@ -25,7 +25,7 @@
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-namespace br2_odVff_avoidance
+namespace br2_odvff_avoidance
 {
 
 using std::placeholders::_1;
@@ -148,4 +148,4 @@ HeadController::control_sycle()
   joint_pub_->publish(command_msg);
 }
 
-} // namespace br2_odVff_avoidance
+} // namespace br2_odvff_avoidance

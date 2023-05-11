@@ -22,14 +22,14 @@
 #include "sensor_msgs/msg/laser_scan.hpp"
 #include "visualization_msgs/msg/marker_array.hpp"
 
-#include "br2_odVff_avoidance/AvoidanceNode.hpp"
+#include "br2_odvff_avoidance/AvoidanceNode.hpp"
 
 #include "rclcpp/rclcpp.hpp"
 
 using std::placeholders::_1;
 using namespace std::chrono_literals;
 
-namespace br2_odVff_avoidance
+namespace br2_odvff_avoidance
 {
 
 AvoidanceNode::AvoidanceNode()
@@ -59,23 +59,23 @@ AvoidanceNode::control_cycle()
   // }
 
   // Get VFF vectors
-  const VFFVectors & vff = get_vff(*last_scan_);
+  // const VFFVectors & vff = get_vff(*last_scan_); //Warning: I need to change the following lines.
 
   // Use result vector to calculate output speed
-  const auto & v = vff.result;
-  double angle = atan2(v[1], v[0]);
-  double module = sqrt(v[0] * v[0] + v[1] * v[1]);
+  // const auto & v = vff.result;
+  // double angle = atan2(v[1], v[0]);
+  // double module = sqrt(v[0] * v[0] + v[1] * v[1]);
 
   // Create ouput message, controlling speed limits
-  geometry_msgs::msg::Twist vel;
-  vel.linear.x = std::clamp(module, 0.0, 0.3);  // truncate linear vel to [0.0, 0.3] m/s
-  vel.angular.z = std::clamp(angle, -0.5, 0.5);  // truncate rotation vel to [-0.5, 0.5] rad/s
+  // geometry_msgs::msg::Twist vel;
+  // vel.linear.x = std::clamp(module, 0.0, 0.3);  // truncate linear vel to [0.0, 0.3] m/s
+  // vel.angular.z = std::clamp(angle, -0.5, 0.5);  // truncate rotation vel to [-0.5, 0.5] rad/s
 
-  vel_pub_->publish(vel);
+  // vel_pub_->publish(vel);
 
   // Produce debug information, if any interested
   if (vff_debug_pub_->get_subscription_count() > 0) {
-    vff_debug_pub_->publish(get_debug_vff(vff));
+    // vff_debug_pub_->publish(get_debug_vff(vff));
   }
 }
 
@@ -170,4 +170,4 @@ AvoidanceNode::make_marker(const std::vector<float> & vector, VFFColor vff_color
 }
 
 
-}  // namespace br2_odVff_avoidance
+}  // namespace br2_odvff_avoidance

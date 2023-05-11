@@ -24,7 +24,7 @@
 
 #include "rclcpp/rclcpp.hpp"
 
-namespace br2_odVff_avoidance
+namespace br2_odvff_avoidance
 {
 
 struct VFFVectors
@@ -60,6 +60,6 @@ private:
   // sensor_msgs::msg::LaserScan::UniquePtr last_scan_;
 };
 
-}  // namespace br2_odVff_avoidance
+}  // namespace br2_odvff_avoidance
 
 #endif  // BR2_ODVFF_AVOIDANCE__AVOIDANCENODE_HPP_

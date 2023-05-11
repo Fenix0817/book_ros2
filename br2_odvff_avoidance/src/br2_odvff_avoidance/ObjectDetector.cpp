@@ -17,14 +17,14 @@
 #include "opencv2/opencv.hpp"
 #include "cv_bridge/cv_bridge.h"
 
-#include "br2_odVff_avoidance/ObjectDetector.hpp"
+#include "br2_odvff_avoidance/ObjectDetector.hpp"
 
 #include "geometry_msgs/msg/pose2_d.hpp"
 
 #include "image_transport/image_transport.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-namespace br2_odVff_avoidance
+namespace br2_odvff_avoidance
 {
 
 using std::placeholders::_1;
@@ -95,4 +95,4 @@ ObjectDetector::image_callback(const sensor_msgs::msg::Image::ConstSharedPtr & m
   }
 }
 
-} // namespace br2_odVff_avoidance
+} // namespace br2_odvff_avoidance

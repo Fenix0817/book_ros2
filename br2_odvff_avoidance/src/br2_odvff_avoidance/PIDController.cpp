@@ -14,9 +14,9 @@
 
 #include <algorithm>
 
-#include "br2_odVff_avoidance/PIDController.hpp"
+#include "br2_odvff_avoidance/PIDController.hpp"
 
-namespace br2_odVff_avoidance
+namespace br2_odvff_avoidance
 {
 
 PIDController::PIDController(double min_ref, double max_ref, double min_output, double max_output)
@@ -72,4 +72,4 @@ PIDController::get_output(double new_reference)
   return std::clamp(output, -max_output_, max_output_);
 }
 
-} // namespace br2_odVff_avoidance
+} // namespace br2_odvff_avoidance

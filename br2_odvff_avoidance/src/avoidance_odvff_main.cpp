@@ -14,8 +14,9 @@
 
 #include <memory>
 
-#include "br2_tracking/ObjectDetector.hpp"
-#include "br2_tracking/HeadController.hpp"
+#include "br2_odvff_avoidance/AvoidanceNode.hpp"
+#include "br2_odvff_avoidance/ObjectDetector.hpp"
+#include "br2_odvff_avoidance/HeadController.hpp"
 
 #include "br2_tracking_msgs/msg/pan_tilt_command.hpp"
 
@@ -26,9 +27,9 @@ int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
 
-  auto node_avoidance = std::make_shared<br2_odVff_avoidance::AvoidanceNode>();
-  auto node_detector = std::make_shared<br2_odVff_avoidance::ObjectDetector>();
-  auto node_head_controller = std::make_shared<br2_odVff_avoidance::HeadController>();
+  auto node_avoidance = std::make_shared<br2_odvff_avoidance::AvoidanceNode>();
+  auto node_detector = std::make_shared<br2_odvff_avoidance::ObjectDetector>();
+  auto node_head_controller = std::make_shared<br2_odvff_avoidance::HeadController>();
   auto node_tracker = rclcpp::Node::make_shared("tracker_odVff");
 
   const int IMG_WIDTH = 640;

@@ -17,7 +17,7 @@
 
 #include <cmath>
 
-namespace br2_odVff_avoidance
+namespace br2_odvff_avoidance
 {
 
 class PIDController
@@ -36,6 +36,6 @@ private:
   double prev_error_, int_error_;
 };
 
-} // namespace br2_odVff_avoidance
+} // namespace br2_odvff_avoidance
 
 #endif // BR2_ODVFF_AVOIDANCE__PIDCONTROLLER_HPP_

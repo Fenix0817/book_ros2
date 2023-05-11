@@ -21,14 +21,14 @@
 #include "control_msgs/msg/joint_trajectory_controller_state.hpp"
 #include "trajectory_msgs/msg/joint_trajectory.hpp"
 
-#include "br2_odVff_avoidance/PIDController.hpp"
+#include "br2_odvff_avoidance/PIDController.hpp"
 
 #include "image_transport/image_transport.hpp"
 
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-namespace br2_odVff_avoidance
+namespace br2_odvff_avoidance
 {
 
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
@@ -61,6 +61,6 @@ private:
   PIDController pan_pid_, tilt_pid_;
 };
 
-} // namespace br2_odVff_avoidance
+} // namespace br2_odvff_avoidance
 
 #endif  // BR2_ODVFF_AVOIDANCE__HEADCONTROLLER_HPP_
