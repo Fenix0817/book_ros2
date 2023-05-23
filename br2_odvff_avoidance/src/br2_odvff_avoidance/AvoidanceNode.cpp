@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <tf2/transform_datatypes.h>
+#include <tf2/LinearMath/Quaternion.h>
 
 #include <memory>
 #include <utility>
@@ -19,7 +21,8 @@
 #include <vector>
 
 #include "geometry_msgs/msg/twist.hpp"
-#include "sensor_msgs/msg/laser_scan.hpp"
+// #include "sensor_msgs/msg/laser_scan.hpp"
+#include "tf2_geometry_msgs/tf2_geometry_msgs.hpp"
 #include "visualization_msgs/msg/marker_array.hpp"
 
 #include "br2_odvff_avoidance/AvoidanceNode.hpp"
@@ -33,7 +36,7 @@ namespace br2_odvff_avoidance
 {
 
 AvoidanceNode::AvoidanceNode()
-: Node("avoidance_odVff")
+: Node("avoidance_odVff"),tf_buffer_(),tf_listener_(tf_buffer_)
 {
   vel_pub_ = create_publisher<geometry_msgs::msg::Twist>("output_vel", 100);
   vff_debug_pub_ = create_publisher<visualization_msgs::msg::MarkerArray>("vff_debug", 100);
@@ -60,6 +63,7 @@ AvoidanceNode::control_cycle()
 
   // Get VFF vectors
   // const VFFVectors & vff = get_vff(*last_scan_); //Warning: I need to change the following lines.
+  get_vff();
 
   // Use result vector to calculate output speed
   // const auto & v = vff.result;
@@ -74,13 +78,14 @@ AvoidanceNode::control_cycle()
   // vel_pub_->publish(vel);
 
   // Produce debug information, if any interested
-  if (vff_debug_pub_->get_subscription_count() > 0) {
+  // if (vff_debug_pub_->get_subscription_count() > 0) {
     // vff_debug_pub_->publish(get_debug_vff(vff));
-  }
+  // }
 }
 
-VFFVectors
-AvoidanceNode::get_vff(const sensor_msgs::msg::LaserScan & scan)
+// AvoidanceNode::get_vff(const sensor_msgs::msg::LaserScan & scan)
+// VFFVectors
+void AvoidanceNode::get_vff()
 {
   // This is the obstacle radious in which an obstacle affects the robot
   const float OBSTACLE_DISTANCE = 1.0;
@@ -91,30 +96,38 @@ AvoidanceNode::get_vff(const sensor_msgs::msg::LaserScan & scan)
   vff_vector.repulsive = {0.0, 0.0};
   vff_vector.result = {0.0, 0.0};
 
+  geometry_msgs::msg::TransformStamped headAngle;
+
+  headAngle = tf_buffer_.lookupTransform("head_1_link", "base_laser_link", tf2::TimePointZero);
+
+  double z = headAngle.transform.translation.z;
+
+  RCLCPP_INFO(get_logger(), "Coordinate z (%lf m)", z);
+
   // Get the index of nearest obstacle
-  int min_idx = std::min_element(scan.ranges.begin(), scan.ranges.end()) - scan.ranges.begin();
+  // int min_idx = std::min_element(scan.ranges.begin(), scan.ranges.end()) - scan.ranges.begin();
 
   // Get the distance to nearest obstacle
-  float distance_min = scan.ranges[min_idx];
+  // float distance_min = scan.ranges[min_idx];
 
   // If the obstacle is in the area that affects the robot, calculate repulsive vector
-  if (distance_min < OBSTACLE_DISTANCE) {
-    float angle = scan.angle_min + scan.angle_increment * min_idx;
+  // if (distance_min < OBSTACLE_DISTANCE) {
+    // float angle = scan.angle_min + scan.angle_increment * min_idx;
 
-    float oposite_angle = angle + M_PI;
+    // float oposite_angle = angle + M_PI;
     // The module of the vector is inverse to the distance to the obstacle
-    float complementary_dist = OBSTACLE_DISTANCE - distance_min;
+    // float complementary_dist = OBSTACLE_DISTANCE - distance_min;
 
     // Get cartesian (x, y) components from polar (angle, distance)
-    vff_vector.repulsive[0] = cos(oposite_angle) * complementary_dist;
-    vff_vector.repulsive[1] = sin(oposite_angle) * complementary_dist;
-  }
+    // vff_vector.repulsive[0] = cos(oposite_angle) * complementary_dist;
+    // vff_vector.repulsive[1] = sin(oposite_angle) * complementary_dist;
+  // }
 
   // Calculate resulting vector adding attractive and repulsive vectors
-  vff_vector.result[0] = (vff_vector.repulsive[0] + vff_vector.attractive[0]);
-  vff_vector.result[1] = (vff_vector.repulsive[1] + vff_vector.attractive[1]);
+  // vff_vector.result[0] = (vff_vector.repulsive[0] + vff_vector.attractive[0]);
+  // vff_vector.result[1] = (vff_vector.repulsive[1] + vff_vector.attractive[1]);
 
-  return vff_vector;
+  // return vff_vector;
 }
 
 visualization_msgs::msg::MarkerArray

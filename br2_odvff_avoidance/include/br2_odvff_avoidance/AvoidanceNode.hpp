@@ -15,11 +15,14 @@
 #ifndef BR2_ODVFF_AVOIDANCE__AVOIDANCENODE_HPP_
 #define BR2_ODVFF_AVOIDANCE__AVOIDANCENODE_HPP_
 
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/transform_listener.h>
+
 #include <memory>
 #include <vector>
 
 #include "geometry_msgs/msg/twist.hpp"
-#include "sensor_msgs/msg/laser_scan.hpp"
+// #include "sensor_msgs/msg/laser_scan.hpp"
 #include "visualization_msgs/msg/marker_array.hpp"
 
 #include "rclcpp/rclcpp.hpp"
@@ -45,7 +48,9 @@ public:
   void control_cycle();
 
 protected:
-  VFFVectors get_vff(const sensor_msgs::msg::LaserScan & scan);
+  // VFFVectors get_vff(const sensor_msgs::msg::LaserScan & scan);
+  // VFFVectors 
+  void get_vff();
 
   visualization_msgs::msg::MarkerArray get_debug_vff(const VFFVectors & vff_vectors);
   visualization_msgs::msg::Marker make_marker(
@@ -56,6 +61,9 @@ private:
   rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr vff_debug_pub_;
   // rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr scan_sub_;
   rclcpp::TimerBase::SharedPtr timer_;
+
+  tf2::BufferCore tf_buffer_;
+  tf2_ros::TransformListener tf_listener_;
 
   // sensor_msgs::msg::LaserScan::UniquePtr last_scan_;
 };

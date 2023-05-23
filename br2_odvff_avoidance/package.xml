@@ -10,6 +10,8 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
+  <depend>tf2_ros</depend>
+  <depend>tf2_geometry_msgs</depend>
   <depend>rclcpp_lifecycle</depend>
   <depend>br2_tracking_msgs</depend>
   <depend>sensor_msgs</depend>

@@ -6,6 +6,8 @@ set(CMAKE_BUILD_TYPE Debug)
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(br2_tracking_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
@@ -19,6 +21,8 @@ find_package(OpenCV REQUIRED)
 
 set(dependencies
   rclcpp
+  tf2_ros
+  tf2_geometry_msgs
   rclcpp_lifecycle
   br2_tracking_msgs
   sensor_msgs

@@ -23,14 +23,14 @@ from launch_ros.actions import Node
 def generate_launch_description():
 
     params_file = os.path.join(
-        get_package_share_directory('br2_odVff_avoidance'),
+        get_package_share_directory('br2_odvff_avoidance'),
         'config',
         'detector.yaml'
         )
 
-    avoidance_odVff_cmd = Node(
-        package='br2_odVff_avoidance',
-        executable='avoidance_odVff',
+    avoidance_odvff_cmd = Node(
+        package='br2_odvff_avoidance',
+        executable='avoidance_odvff',
         parameters=[{
           'use_sim_time': True
         }, params_file],
@@ -38,7 +38,7 @@ def generate_launch_description():
           ('input_image', '/head_front_camera/rgb/image_raw'),
           ('joint_state', '/head_controller/state'),
           ('joint_command', '/head_controller/joint_trajectory'),
-          ('input_scan', '/scan_raw'),
+          # ('input_scan', '/scan_raw'),
           ('output_vel', '/nav_vel')
         ],
         output='screen'
@@ -47,6 +47,6 @@ def generate_launch_description():
     ld = LaunchDescription()
 
     # Add any actions
-    ld.add_action(avoidance_odVff_cmd)
+    ld.add_action(avoidance_odvff_cmd)
 
     return ld
