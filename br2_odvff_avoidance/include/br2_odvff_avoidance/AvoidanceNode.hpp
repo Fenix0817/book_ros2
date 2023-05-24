@@ -49,8 +49,7 @@ public:
 
 protected:
   // VFFVectors get_vff(const sensor_msgs::msg::LaserScan & scan);
-  // VFFVectors 
-  void get_vff();
+  VFFVectors get_vff();
 
   visualization_msgs::msg::MarkerArray get_debug_vff(const VFFVectors & vff_vectors);
   visualization_msgs::msg::Marker make_marker(

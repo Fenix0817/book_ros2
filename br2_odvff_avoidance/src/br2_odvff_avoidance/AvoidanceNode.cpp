@@ -63,29 +63,29 @@ AvoidanceNode::control_cycle()
 
   // Get VFF vectors
   // const VFFVectors & vff = get_vff(*last_scan_); //Warning: I need to change the following lines.
-  get_vff();
+  const VFFVectors &vff = get_vff();
 
   // Use result vector to calculate output speed
-  // const auto & v = vff.result;
-  // double angle = atan2(v[1], v[0]);
-  // double module = sqrt(v[0] * v[0] + v[1] * v[1]);
+  const auto & v = vff.result;
+  double angle = atan2(v[1], v[0]);
+  double module = sqrt(v[0] * v[0] + v[1] * v[1]);
 
   // Create ouput message, controlling speed limits
-  // geometry_msgs::msg::Twist vel;
-  // vel.linear.x = std::clamp(module, 0.0, 0.3);  // truncate linear vel to [0.0, 0.3] m/s
-  // vel.angular.z = std::clamp(angle, -0.5, 0.5);  // truncate rotation vel to [-0.5, 0.5] rad/s
+  geometry_msgs::msg::Twist vel;
+  vel.linear.x = std::clamp(module, 0.0, 0.3);  // truncate linear vel to [0.0, 0.3] m/s
+  vel.angular.z = std::clamp(angle, -0.5, 0.5);  // truncate rotation vel to [-0.5, 0.5] rad/s
 
-  // vel_pub_->publish(vel);
+  vel_pub_->publish(vel);
 
   // Produce debug information, if any interested
-  // if (vff_debug_pub_->get_subscription_count() > 0) {
-    // vff_debug_pub_->publish(get_debug_vff(vff));
-  // }
+  if (vff_debug_pub_->get_subscription_count() > 0) {
+    vff_debug_pub_->publish(get_debug_vff(vff));
+  }
 }
 
 // AvoidanceNode::get_vff(const sensor_msgs::msg::LaserScan & scan)
-// VFFVectors
-void AvoidanceNode::get_vff()
+VFFVectors
+AvoidanceNode::get_vff()
 {
   // This is the obstacle radious in which an obstacle affects the robot
   const float OBSTACLE_DISTANCE = 1.0;
@@ -100,9 +100,21 @@ void AvoidanceNode::get_vff()
 
   headAngle = tf_buffer_.lookupTransform("head_1_link", "base_laser_link", tf2::TimePointZero);
 
-  double z = headAngle.transform.translation.z;
+  // Orientation quaternion
+  tf2::Quaternion q(
+      headAngle.transform.rotation.x,
+      headAngle.transform.rotation.y,
+      headAngle.transform.rotation.z,
+      headAngle.transform.rotation.w);
+  
+  // 3x3 Rotation matrix from quaternion
+  tf2::Matrix3x3 m(q);
+  
+  // Roll Pitch and Yaw from rotation matrix
+  double roll, pitch, yaw;
+  m.getRPY(roll, pitch, yaw);
 
-  RCLCPP_INFO(get_logger(), "Coordinate z (%lf m)", z);
+  // RCLCPP_INFO(get_logger(), " Yaw angle (%lf)", yaw);
 
   // Get the index of nearest obstacle
   // int min_idx = std::min_element(scan.ranges.begin(), scan.ranges.end()) - scan.ranges.begin();
@@ -114,20 +126,21 @@ void AvoidanceNode::get_vff()
   // if (distance_min < OBSTACLE_DISTANCE) {
     // float angle = scan.angle_min + scan.angle_increment * min_idx;
 
-    // float oposite_angle = angle + M_PI;
+    float oposite_angle = yaw + M_PI;
     // The module of the vector is inverse to the distance to the obstacle
     // float complementary_dist = OBSTACLE_DISTANCE - distance_min;
+    float complementary_dist = 0.8;
 
     // Get cartesian (x, y) components from polar (angle, distance)
-    // vff_vector.repulsive[0] = cos(oposite_angle) * complementary_dist;
-    // vff_vector.repulsive[1] = sin(oposite_angle) * complementary_dist;
+    vff_vector.repulsive[0] = cos(oposite_angle) * complementary_dist;
+    vff_vector.repulsive[1] = sin(oposite_angle) * complementary_dist;
   // }
 
   // Calculate resulting vector adding attractive and repulsive vectors
-  // vff_vector.result[0] = (vff_vector.repulsive[0] + vff_vector.attractive[0]);
-  // vff_vector.result[1] = (vff_vector.repulsive[1] + vff_vector.attractive[1]);
+  vff_vector.result[0] = (vff_vector.repulsive[0] + vff_vector.attractive[0]);
+  vff_vector.result[1] = (vff_vector.repulsive[1] + vff_vector.attractive[1]);
 
-  // return vff_vector;
+  return vff_vector;
 }
 
 visualization_msgs::msg::MarkerArray
