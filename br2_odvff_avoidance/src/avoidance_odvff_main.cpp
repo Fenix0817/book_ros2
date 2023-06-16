@@ -14,7 +14,6 @@
 
 #include <memory>
 
-#include "br2_odvff_avoidance/AvoidanceNode.hpp"
 #include "br2_odvff_avoidance/ObjectDetector.hpp"
 #include "br2_odvff_avoidance/HeadController.hpp"
 
@@ -27,18 +26,17 @@ int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
 
-  auto node_avoidance = std::make_shared<br2_odvff_avoidance::AvoidanceNode>();
   auto node_detector = std::make_shared<br2_odvff_avoidance::ObjectDetector>();
   auto node_head_controller = std::make_shared<br2_odvff_avoidance::HeadController>();
-  auto node_tracker = rclcpp::Node::make_shared("tracker_odVff");
+  auto node_tracker = rclcpp::Node::make_shared("tracker");
 
   const int IMG_WIDTH = 640;
   const int IMG_HEIGHT = 480;
 
   auto command_pub = node_tracker->create_publisher<br2_tracking_msgs::msg::PanTiltCommand>(
-      "/command_odVff", 100);
+      "/command", 100);
   auto detection_sub = node_tracker->create_subscription<vision_msgs::msg::Detection2D>(
-      "/detection_odVff", rclcpp::SensorDataQoS(),
+      "/detection", rclcpp::SensorDataQoS(),
       [command_pub](vision_msgs::msg::Detection2D::SharedPtr msg)
       {
         br2_tracking_msgs::msg::PanTiltCommand command;
@@ -48,7 +46,6 @@ int main(int argc, char * argv[])
       });
 
   rclcpp::executors::SingleThreadedExecutor executor;
-  executor.add_node(node_avoidance);
   executor.add_node(node_detector);
   executor.add_node(node_head_controller->get_node_base_interface());
   executor.add_node(node_tracker);

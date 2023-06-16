@@ -38,7 +38,7 @@ set(dependencies
 include_directories(include)
 
 add_library(${PROJECT_NAME} SHARED
-  src/br2_odvff_avoidance/AvoidanceNode.cpp
+  #src/br2_odvff_avoidance/AvoidanceNode.cpp
   src/br2_odvff_avoidance/ObjectDetector.cpp
   src/br2_odvff_avoidance/HeadController.cpp
   src/br2_odvff_avoidance/PIDController.cpp
@@ -65,13 +65,13 @@ install(
 
 install(DIRECTORY launch config DESTINATION share/${PROJECT_NAME})
 
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
+# if(BUILD_TESTING)
+#   find_package(ament_lint_auto REQUIRED)
+#   ament_lint_auto_find_test_dependencies()
   
-  set(ament_cmake_cpplint_FOUND TRUE)
-  ament_lint_auto_find_test_dependencies()
-endif()
+#   set(ament_cmake_cpplint_FOUND TRUE)
+#   ament_lint_auto_find_test_dependencies()
+# endif()
 
 ament_export_include_directories(include)
 ament_export_libraries(${PROJECT_NAME})

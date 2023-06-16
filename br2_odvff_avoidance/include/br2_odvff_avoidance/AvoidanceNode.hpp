@@ -61,8 +61,8 @@ private:
   // rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr scan_sub_;
   rclcpp::TimerBase::SharedPtr timer_;
 
-  tf2::BufferCore tf_buffer_;
-  tf2_ros::TransformListener tf_listener_;
+  // tf2::BufferCore tf_buffer_;
+  // tf2_ros::TransformListener tf_listener_;
 
   // sensor_msgs::msg::LaserScan::UniquePtr last_scan_;
 };
