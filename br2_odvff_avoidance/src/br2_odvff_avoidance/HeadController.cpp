@@ -219,7 +219,7 @@ HeadController::get_vff()
 
   RCLCPP_INFO(get_logger(), " Yaw angle (%lf)", yaw);
 
-  float oposite_angle = yaw + M_PI;
+  float oposite_angle = -yaw + M_PI;
   // The module of the vector is inverse to the distance to the obstacle
   // float complementary_dist = OBSTACLE_DISTANCE - distance_min;
   float complementary_dist = 0.8;
