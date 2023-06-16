@@ -217,7 +217,7 @@ HeadController::get_vff()
   double roll, pitch, yaw;
   m.getRPY(roll, pitch, yaw);
 
-  RCLCPP_INFO(get_logger(), " Yaw angle (%lf)", yaw);
+  // RCLCPP_INFO(get_logger(), " Yaw angle (%lf)", yaw);
 
   float oposite_angle = -yaw + M_PI;
   // The module of the vector is inverse to the distance to the obstacle
