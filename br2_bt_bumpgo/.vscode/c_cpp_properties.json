@@ -1,0 +1,32 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/andres/ros2_ws/install/br2_tracking/include/**",
+        "/home/andres/ros2_ws/install/br2_odvff_avoidance/include/**",
+        "/home/andres/ros2_ws/install/br2_tracking_msgs/include/**",
+        "/home/andres/ros2_ws/install/br2_bt_patrolling/include/**",
+        "/home/andres/ros2_ws/install/br2_bt_bumpgo/include/**",
+        "/opt/ros/humble/include/**",
+        "/home/andres/ros2_ws/src/book_ros2/br2_bt_bumpgo/include/**",
+        "/home/andres/ros2_ws/src/book_ros2/br2_bt_patrolling/include/**",
+        "/home/andres/ros2_ws/src/book_ros2/br2_fsm_bumpgo_cpp/include/**",
+        "/home/andres/ros2_ws/src/book_ros2/br2_odvff_avoidance/include/**",
+        "/home/andres/ros2_ws/src/book_ros2/br2_tf2_detector/include/**",
+        "/home/andres/ros2_ws/src/book_ros2/br2_tracking/include/**",
+        "/home/andres/ros2_ws/src/book_ros2/br2_vff_avoidance/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
