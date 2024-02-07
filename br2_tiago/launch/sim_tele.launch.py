@@ -19,6 +19,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import (DeclareLaunchArgument, GroupAction,
                             IncludeLaunchDescription, SetEnvironmentVariable)
+from launch_ros.actions import Node
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
@@ -36,13 +37,21 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(os.path.join(tiago_gazebo_dir, 'launch', 'tiago_gazebo.launch.py')),
         launch_arguments={
           'world_name': world,
-          'arm': 'no-arm'
+          'arm': 'no-arm',
         }.items())
 
     declare_use_sim_time_cmd = DeclareLaunchArgument(
         'use_sim_time',
         default_value='True',
         description='Use simulation (Gazebo) clock if true')
+    
+    declare_tele_cmd = Node(
+            package="teleop_twist_keyboard",
+            executable="teleop_twist_keyboard",
+            remappings=[('cmd_vel','key_vel')],
+            output="screen",
+            prefix="xterm -e"
+        )
 
     ld = LaunchDescription()
 
@@ -50,6 +59,7 @@ def generate_launch_description():
 
     ld.add_action(declare_use_sim_time_cmd)
     ld.add_action(declare_world_cmd)
+    ld.add_action(declare_tele_cmd)
 
     return ld
     
